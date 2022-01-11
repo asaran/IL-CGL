@@ -91,7 +91,6 @@ class ExprCreaterAndResumer:
                 pass
         sys.stdout = Logger(self.logfile)
         sys.stderr = sys.stdout
-        # Now you can use: `print "Hello"`, which will write "Hello" to both stdout and logfile
 
     def printdebug(self, str):
         print('  ----   DEBUG: '+str)

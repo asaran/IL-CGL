@@ -33,9 +33,9 @@ def create_training_data(demonstrations, num_snippets, min_snippet_length, max_s
     num_demos = len(demonstrations)
     
     if use_gaze:
-        model_path = '../data/trained_models/' \
+        model_path = '../data/trained_gaze_models/' \
             + env_name + '.hdf5'
-        meanfile_path = '../data/trained_models/' + env_name + '.mean.npy'
+        meanfile_path = '../data/trained_gaze_models/' + env_name + '.mean.npy'
             
 
         h = gh.PretrainedHeatmap(env_name, model_path, meanfile_path)

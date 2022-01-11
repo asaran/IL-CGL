@@ -5,8 +5,6 @@ from IPython import embed
 from scipy import misc
 import gaze.vip_constants as V
 
-# Don't import tensorflow or keras here, as people who import this file might not have keras or tf
-
 class Dataset(object):
   train_imgs, train_lbl, train_fid, train_size, train_weight = None, None, None, None, None
   val_imgs, val_lbl, val_fid, val_size, val_weight = None, None, None, None, None
@@ -184,10 +182,7 @@ def read_np_parallel(label_file, RESIZE_SHAPE, num_thread=6, preprocess_deprecat
             line=line.strip()
             if line.startswith("#") or line == "": 
                 continue # skip comments or empty lines
-            fname, lbl, x, y, w = line.split(' ') # TODO: Luxin adds the last gaze positions (x,y) into label file.
-            # TODO This is not a good practice. We should delete the code that reads them here, and delete the code 
-            # TODO that writes them in create_train_val_dataset.py. And then find the code which needs this information
-            # to get the information from "frameid2pos"(a dict returned by read_gaze_data_asc_file()) instead.
+            fname, lbl, x, y, w = line.split(' ') 
             png_files.append(fname)
             labels.append(int(lbl))
             fids.append(frameid_from_filename(fname))

@@ -4,7 +4,7 @@ from IPython import embed
 sys.path.insert(0, '../shared') # After research, this is the best way to import a file in another dir
 import gaze.base_misc_utils as BMU
 
-def keras_model_serialization_bug_fix(): # stupid keras
+def keras_model_serialization_bug_fix(): 
     from keras.utils.generic_utils import get_custom_objects
     f=lambda obj_to_serialize: \
         get_custom_objects().update({obj_to_serialize.__name__: obj_to_serialize})
@@ -17,7 +17,7 @@ def keras_model_serialization_bug_fix(): # stupid keras
 def loss_func(target, pred): 
     return K.backend.sparse_categorical_crossentropy(output=pred, target=target, from_logits=True)
 
-def acc_(y_true, y_pred): # don't rename it to acc or accuracy (otherwise stupid keras will replace this func with its own accuracy function when serializing )
+def acc_(y_true, y_pred): # don't rename it to acc or accuracy (otherwise keras will replace this func with its own accuracy function when serializing )
   return tf.reduce_mean(
     tf.cast(tf.nn.in_top_k(
       targets=tf.squeeze(tf.cast(y_true,tf.int32)), 
