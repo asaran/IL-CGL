@@ -1,14 +1,14 @@
 '''Example network architecture for behavioral cloning + CGL'''
-import tensorflow as tf, numpy as np, keras as K
-import keras.layers as L
-from keras.models import Model, Sequential 
+import tensorflow as tf, numpy as np, tensorflow.keras as K
+import tensorflow.keras.layers as L
+from tensorflow.keras.models import Model, Sequential 
 
 def cgl_kl(y_true, y_pred):
     '''CGL loss function'''
     epsilon = 2.2204e-16 # introduce epsilon to avoid log and division by zero error
     y_true2 = K.backend.clip(y_true, epsilon, 1)
     y_pred = K.backend.clip(y_pred, epsilon, 1)
-    return K.backend.sum(y_true * K.backend.log(y_true2 / y_pred), axis = [1,2,3])
+    return K.backend.sum(y_true * K.backend.log(y_true2 / y_pred)) #for old Keras need axis = [1,2,3]
 
 def my_softmax(x):
     '''Softmax activation function. Normalize the whole metrics.
@@ -64,8 +64,6 @@ if True:
     #GCL otuput
     conv4 = L.Conv2D(1, (1,1), strides=1, padding='same')
     z = conv4(x)
-    print conv4.output_shape
-
     conv_output = L.Activation(my_softmax, name="gaze_cvg")(z)
 
     model=Model(inputs=inputs, outputs=[conv_output, logits, prob])
@@ -75,9 +73,8 @@ if True:
     opt=K.optimizers.Adadelta()
 
     model.compile(optimizer=opt, \
-    loss={"gaze_cvg": cgl_kl, "logits": K.metrics.sparse_categorical_accuracy, "prob": None},\
-    loss_weights={"logits":1 - gaze_weight, "gaze_cvg": gaze_weight},\
-    metrics={"logits": K.metrics.sparse_categorical_accuracy, "gaze_cvg": cgl_kl})
+    loss={"gaze_cvg": cgl_kl, "logits": None, "prob": K.losses.sparse_categorical_crossentropy},\
+    loss_weights={"prob":1 - gaze_weight, "gaze_cvg": gaze_weight})
 
 if __name__ == "__main__":
     # LOAD the Atari-HEAD Dataset in your way
@@ -87,7 +84,7 @@ if __name__ == "__main__":
     d.load_predicted_gaze_heatmap(sys.argv[3]) #npz file (predicted gaze heatmap)
     d.reshape_heatmap_for_cgl(heatmap_shape)
 
-    model.fit(d.train_imgs, {"logits": d.train_lbl, "gaze_cvg": d.train_GHmap}, BATCH_SIZE, epochs=num_epoch,
+    model.fit(d.train_imgs, {"prob": d.train_lbl, "gaze_cvg": d.train_GHmap}, BATCH_SIZE, epochs=num_epoch,
         shuffle=True, verbose=2)
 
     model.save("model.hdf5")

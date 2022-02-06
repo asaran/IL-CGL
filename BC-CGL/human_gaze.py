@@ -1,9 +1,9 @@
 '''This file reads a trained gaze prediction network by Zhang et al. 2020, and a data file, then outputs human attention map
 Zhang, R., Walshe, C., Liu, Z., Guan, L., Muller, K., Whritner, J., ... & Ballard, D. (2020, April). Atari-head: Atari human eye-tracking and demonstration dataset. In Proceedings of the AAAI Conference on Artificial Intelligence (Vol. 34, No. 04, pp. 6811-6820).'''
 
-import tensorflow as tf, numpy as np, keras as K
-import keras.layers as L
-from keras.models import Model, Sequential 
+import tensorflow as tf, numpy as np, tensorflow.keras as K
+import tensorflow.keras.layers as L
+from tensorflow.keras.models import Model, Sequential 
 
 def my_softmax(x):
     """Softmax activation function. Normalize the whole metrics.
@@ -87,14 +87,14 @@ class Human_Gaze_Predictor:
         print("Loaded.")
   
     def predict_and_save(self, imgs):
-        print "Predicting results..."
-        self.preds = self.model.predict(self.imgs) 
-        print "Predicted."
+        print("Predicting results...")
+        self.preds = self.model.predict(imgs) 
+        print("Predicted.")
     
-        print "Writing predicted gaze heatmap (train) into the npz file..."
+        print("Writing predicted gaze heatmap (train) into the npz file...")
         np.savez_compressed("human_gaze_" + self.game_name, heatmap=self.preds[:,:,:,0])
-        print "Done. Output is:"
-        print " %s" % "human_gaze_" + self.game_name + '.npz'
+        print("Done. Output is:")
+        print(" %s" % "human_gaze_" + self.game_name + '.npz')
 
 if __name__ == "__main__":
     from load_data import *
@@ -103,6 +103,8 @@ if __name__ == "__main__":
     d.generate_data_for_gaze_prediction()
     
     gp = Human_Gaze_Predictor(sys.argv[3]) #game name
-    gp.init_model(sys.argv[3]) #gaze model .hdf5 file provided in the repo
-    gp.init_data()
+    gp.init_model(sys.argv[4]) #gaze model .hdf5 file provided in the repo
     gp.predict_and_save(d.gaze_imgs)
+
+
+

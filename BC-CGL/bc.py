@@ -1,15 +1,15 @@
 '''Example network architecture for behavioral cloning'''
-import tensorflow as tf, numpy as np, keras as K
-import keras.layers as L
-from keras.models import Model, Sequential 
+import tensorflow as tf, numpy as np, tensorflow.keras as K
+import tensorflow.keras.layers as L
+from tensorflow.keras.models import Model, Sequential 
 
 BATCH_SIZE = 50
 num_epoch = 50
 num_action = 18
 SHAPE = (84,84,1) # height * width * channel
-dropout =  0.0
+dropout = 0.0
 
-if True: 
+if True: # I just want to indent
     ###############################
     # Architecture of the network #
     ###############################
@@ -41,8 +41,8 @@ if True:
 
     opt=K.optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08, decay=0.0)
 
-    model.compile(loss={"prob":None, "logits": K.metrics.sparse_categorical_accuracy},
-                 optimizer=opt,metrics=[K.metrics.sparse_categorical_accuracy])
+    model.compile(loss={"prob":K.losses.sparse_categorical_crossentropy, "logits": None},
+                 optimizer=opt)
 
 if __name__ == "__main__":
     # LOAD the Atari-HEAD Dataset in your way

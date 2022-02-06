@@ -61,8 +61,8 @@ class Dataset:
         img = np.float32(cv2.imread(png_fname))
         img = preprocess(img)
         imgs[i] = copy.deepcopy(img)
-        print("\r%d/%d" % (i+1,self.train_size)),
-        sys.stdout.flush()
+        #print("\r%d/%d" % (i+1,self.train_size)),
+        #sys.stdout.flush()
 
     self.train_imgs = np.asarray(imgs)
     print ("Time spent to read training data: %.1fs" % (time.time()-t1))
@@ -75,16 +75,18 @@ class Dataset:
     train_npz = np.load(train_npz)
     self.train_GHmap = train_npz['heatmap']
     # npz file from pastK models has pastK-fewer data, so we need to know use value of pastK
-    pastK = 4
-    self.train_imgs = d.train_imgs[pastK:]
-    self.train_lbl = d.train_lbl[pastK:]
+    pastK = 3
+    self.train_imgs = self.train_imgs[pastK:]
+    self.train_lbl = self.train_lbl[pastK:]
 
   def reshape_heatmap_for_cgl(self, heatmap_shape):
     # predicted human gaze was in 84 x 84, needs to be reshaped for cgl
     #heatmap_shape: output feature map size of the conv layer 
     import cv2
+    self.temp = np.zeros((len(self.train_GHmap), heatmap_shape, heatmap_shape))
     for i in range(len(self.train_GHmap)):
-        self.train_GHmap[i] = cv2.resize(frame, (heatmap_shape, heatmap_shape), interpolation=cv2.INTER_AREA)
+        self.temp[i] = cv2.resize(self.train_GHmap[i], (heatmap_shape, heatmap_shape), interpolation=cv2.INTER_AREA)
+    self.train_GHmap = self.temp
 
   def generate_data_for_gaze_prediction(self):
     self.gaze_imgs = [None] * (self.train_size - 3)
