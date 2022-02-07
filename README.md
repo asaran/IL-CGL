@@ -9,6 +9,7 @@ International Conference on Autonomous Agents and Multiagent Systems (AAMAS), Ma
 
 * Download the demonstrations and corresponding gaze data from the [Atari-HEAD dataset](https://zenodo.org/record/3451402). Store the data for each game under a separate subdirectory inside the `data/atari-head/` folder.
 * Download the pretrained [gaze models](https://drive.google.com/file/d/1tSQsMpPt354r69-ebHSQwQ3mjxkzKL6v/view?usp=sharing) (trained on all demos except the high-score ones for each game) and store them inside the `data/trained_gaze_models/` folder.
+* Note that you can re-train human gaze prediction models using the network architecture provided in `BC-CGL/human_gaze.py` if needed.
 
 ## Code
 
