@@ -6,7 +6,7 @@ import torch
 from os import path, listdir
 import gaze.gaze_heatmap as gh
 import time
-# TODO: add masking part for extra games
+
 from baselines.common.trex_utils import normalize_state
 
 import torch.nn.functional as F

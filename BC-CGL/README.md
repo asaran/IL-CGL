@@ -3,10 +3,6 @@
 ## Setup
 This code has been tested with Tensorflow 2.6.0.
 
-* Download the Atari-HEAD dataset: https://zenodo.org/record/3451402
-* Store the trained models (.hdf5) and mean files (.npy) to predict human attention in a folder called `trained_gaze_models` under this directory. Note that you can re-train human gaze prediction models using the network architecture provided in `human_gaze.py` if needed.
-
-
 ## Train agent policies
 Learn the agent policy for the baseline behavioral cloning network:
 ```

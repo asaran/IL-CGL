@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from astropy.convolution import convolve
 from astropy.convolution.kernels import Gaussian2DKernel
 import sys
-sys.path.insert(0, '../shared') # After research, this is the best way to import a file in another dir
+sys.path.insert(0, '../shared') 
 import gaze.base_input_utils as BIU
 import gaze.vip_constants as V
 
@@ -297,5 +297,3 @@ def make_targz_one_by_one(output_filename, source_dir):
             pathfile = os.path.join(root, file)
             tar.add(pathfile)
     tar.close()
-
-    

@@ -10,7 +10,7 @@ Learn the reward model for the baseline T-REX model.
 python LearnReward.py --env_name breakout --reward_model_path ./reward_models/breakout.params --models_dir . --data_dir ../data/atari-head/
 ```
 
-Learn the reward model for the gaze augmented T-REX model (T-REX+CGL). The hyperparameter `gaze_reg' is used to tune the balance between the pairwise ranking loss and the coverage loss.
+Learn the reward model for the gaze augmented T-REX model (T-REX+CGL). The hyperparameter `gaze_reg` is used to tune the balance between the pairwise ranking loss and the coverage loss.
 ```
 python LearnReward.py --env_name breakout --reward_model_path ./reward_models/breakout_cgl.params --models_dir . --data_dir ../data/atari-head/ --cgl --gaze_reg 0.5
 ```
